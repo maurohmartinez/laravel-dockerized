@@ -17,7 +17,9 @@ services:
       - php
       - mysql
   php:
-    build: ./php
+    build:
+      context: ./
+      dockerfile: php.dockerfile
     volumes:
       - ./src:/var/www/html:delegated
   mysql:
@@ -29,7 +31,9 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret
   artisan:
-    build: ./php
+    build:
+      context: ./
+      dockerfile: php.dockerfile
     volumes:
       - ./src:/var/www/html
     entrypoint: [ "php", "/var/www/html/artisan" ]
@@ -45,8 +49,3 @@ services:
     entrypoint: ["composer", "--ignore-platform-reqs"]
     volumes:
       - ./src:/var/www/html
-
-networks:
-  default:
-    name: local
-    external: true
